@@ -5,7 +5,7 @@ class Solution(object):
         :rtype: str
         """
         result = ""
-        sub_string_dict = dict()
+        sub_string_dict = defaultdict(int)
         for i in range(0,len(num)-2 if len(num) > 3 else 1):
             sub_string = set(ch for ch in num[i:i+3])
             if len(sub_string) == 1:
