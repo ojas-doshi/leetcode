@@ -9,5 +9,4 @@ class Solution(object):
             matches = n // 2
             count = count + matches
             n = n - matches
-            print(n)
         return count
