@@ -1,33 +1,36 @@
-name: Run Python script and push changes to another private repository
+name: Run Python script and push changes to the same repository
 
 on:
   push:
     branches:
       - master
+    # Check for specific commit messages to skip workflow run
+    paths-ignore:
+      - '*.md'  # Example: Adjust the file pattern if needed
+    if: >
+      contains(github.event.head_commit.message, 'Attach NOTES - LeetHub') ||
+      contains(github.event.head_commit.message, 'Create README - LeetHub')
 
 jobs:
   run_script:
+    if: github.event_name == 'push' && !contains(github.event.head_commit.message, 'Attach NOTES - LeetHub') && !contains(github.event.head_commit.message, 'Create README - LeetHub')
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Run Python script
       run: |
         python3 diff_level.py
 
     - name: Commit changes
-      env:
-        PAT: ${{ secrets.CODE_TRANSFER }} # Add your Personal Access Token as a secret
       run: |
-        git config --local user.email "mr.doshi.ojas@gmail.com"
-        git config --local user.name "Ojas Doshi"
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
         git add .
         git diff --quiet && git diff --staged --quiet || git commit -m "Update directory structure"
-    - name: Push changes
-      env:
-        PAT: ${{ secrets.CODE_TRANSFER }} # Add your Personal Access Token as a secret
+
+    - name: Push changes to the same branch
       run: |
-        git push origin master
-        
+        git push origin HEAD:master
