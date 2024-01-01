@@ -29,4 +29,4 @@ jobs:
         PAT: ${{ secrets.CODE_TRANSFER }} # Add your Personal Access Token as a secret
       run: |
         git remote add other_repo https://github.com/ojas-doshi/leetcode_solutions.git
-        git push other_repo HEAD:master
+        git push other_repo master
