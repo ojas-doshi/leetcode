@@ -1,4 +1,4 @@
-name: Run Python script and push changes to another repository
+name: Run Python script and push changes to another private repository
 
 on:
   push:
@@ -24,7 +24,9 @@ jobs:
         git add .
         git diff --quiet && git diff --staged --quiet || git commit -m "Update directory structure"
 
-    - name: Push changes to another repository
+    - name: Push changes to another private repository
+      env:
+        PAT: ${{ secrets.CODE_TRANSFER }} # Add your Personal Access Token as a secret
       run: |
-        git remote add other_repo https://github.com/ojas-doshi/leetcode_solutions.git
+        git remote add other_repo <other_repository_url>
         git push other_repo HEAD:master
