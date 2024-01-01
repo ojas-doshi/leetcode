@@ -18,15 +18,16 @@ jobs:
         python3 diff_level.py
 
     - name: Commit changes
-      run: |
-        git config --local user.email "actions@github.com"
-        git config --local user.name "GitHub Actions"
-        git add .
-        git diff --quiet && git diff --staged --quiet || git commit -m "Update directory structure"
-
-    - name: Push changes to another private repository
       env:
         PAT: ${{ secrets.CODE_TRANSFER }} # Add your Personal Access Token as a secret
       run: |
-        git remote add other_repo https://github.com/ojas-doshi/leetcode_solutions.git
-        git push other_repo master
+        git config --local user.email "mr.doshi.ojas@gmail.com"
+        git config --local user.name "Ojas Doshi"
+        git config --local credential.helper cache
+        git remote add leetcode_solutions https://${{ secrets.CODE_TRANSFER }}@github.com/leetcode_solutions
+        
+        git add .
+        git diff --quiet && git diff --staged --quiet || git commit -m "Update directory structure"
+        
+        git push leetcode_solutions master
+        
