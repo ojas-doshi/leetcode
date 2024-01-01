@@ -22,7 +22,7 @@ jobs:
 
     - name: Run Python script
       run: |
-        python3 organize_files.py
+        python3 srcipts/organize_files.py
 
     - name: Commit changes
       run: |

@@ -6,6 +6,8 @@ import shutil
 readme_file = 'README.md'
 difficulty_pattern = r"</h2><h3>(\w+)</h3><hr>"  # Assuming the difficulty level is mentioned in the README.md
 
+src_default_path = os.path.join('..','src')
+
 # Function to extract difficulty level from README.md
 def extract_difficulty_level(file_path):
     with open(file_path, 'r') as file:
@@ -25,7 +27,7 @@ def organize_folders_by_difficulty(root_folder):
             if os.path.exists(readme_path):
                 difficulty_level = extract_difficulty_level(readme_path)
                 if difficulty_level:
-                    difficulty_folder = os.path.join(root_folder, difficulty_level)
+                    difficulty_folder = os.path.join(src_default_path, difficulty_level)
                     difficulty_folder = difficulty_folder.lower()
                     if not os.path.exists(difficulty_folder):
                         os.makedirs(difficulty_folder)
