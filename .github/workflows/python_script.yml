@@ -22,7 +22,7 @@ jobs:
 
     - name: Run Python script
       run: |
-        python3 diff_level.py
+        python3 organize_files.py
 
     - name: Commit changes
       run: |
