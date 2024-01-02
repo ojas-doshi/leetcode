@@ -32,7 +32,7 @@ def organize_folders_by_difficulty(root_folder):
                     if not os.path.exists(difficulty_folder):
                         os.makedirs(difficulty_folder)
                     shutil.move(folder_path, os.path.join(difficulty_folder, folder_name))
-                    print(f"Moved '{folder_name}' to '{difficulty_level}' folder.")
+                    print(f"Moved '{folder_name}' to '{difficulty_folder}' folder.")
 
 # Replace 'root_folder' with the path to your main directory containing the problem folders
 root_folder = os.path.curdir
