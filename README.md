@@ -1,5 +1,5 @@
 <div align="center">
-# Leet Code Solutions
+<h1> Leet Code Solutions </h1>h1>
 </div>
 
 ## Badges
