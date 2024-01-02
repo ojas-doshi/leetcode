@@ -29,7 +29,7 @@ jobs:
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
         git add .
-        git diff --quiet && git diff --staged --quiet || git commit -m "Update directory structure"
+        git diff --quiet && git diff --staged --quiet || git commit -m "Organized Problem Solution according to Difficulty Level Folder Structure"
 
     - name: Push changes to the same branch
       run: |
