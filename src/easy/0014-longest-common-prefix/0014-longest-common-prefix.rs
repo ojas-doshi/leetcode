@@ -4,15 +4,19 @@ impl Solution {
             return String::new();
         }
 
-        let mut prefix = strs[0].clone();
+        let mut prefix = String::new();
+        let first_word = strs[0].as_bytes();
 
-        for i in 1..strs.len() {
-            while !strs[i].starts_with(&prefix) {
-                prefix.pop();
+        'outer: for i in 0..first_word.len() {
+            let current_char = first_word[i];
+
+            for j in 1..strs.len() {
+                if i >= strs[j].len() || strs[j].as_bytes()[i] != current_char {
+                    break 'outer;
+                }
             }
-            if prefix.is_empty() {
-                break;
-            }
+
+            prefix.push(current_char as char);
         }
 
         prefix
