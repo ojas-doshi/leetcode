@@ -24,7 +24,7 @@ class FolderOrganizer:
                 match = re.search(self.difficulty_pattern, content)
                 match_result =  match.group(1) if match else None
         else:
-            self.logger.info(f"{file_path} is not README.md")
+            self.logger.warning(f"{file_path} is not solution's README file.")
         return match_result
     
     def check_in_previous_solutions(self, folder_name):
