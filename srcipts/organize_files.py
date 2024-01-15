@@ -17,11 +17,16 @@ class FolderOrganizer:
 
     def extract_difficulty_level(self, file_path):
         """Extract difficulty level from the README file."""
-        with open(file_path, 'r') as file:
-            content = file.read()
-            match = re.search(self.difficulty_pattern, content)
-            return match.group(1) if match else None
-
+        match_result = None
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                content = file.read()
+                match = re.search(self.difficulty_pattern, content)
+                match_result =  match.group(1) if match else None
+        else:
+            self.logger.info(f"{file_path} is not README.md")
+        return match_result
+    
     def check_in_previous_solutions(self, folder_name):
         """Check if the folder exists in previous solutions."""
         for level in self.difficulty_levels:
@@ -38,7 +43,7 @@ class FolderOrganizer:
                 exists_in_previous, difficulty_level = self.check_in_previous_solutions(folder_name)
 
                 # Determine difficulty level based on README or previous solutions
-                difficulty_level = difficulty_level or (exists_in_previous and 'easy')
+                difficulty_level = difficulty_level if exists_in_previous and not os.path.exists(readme_path) else self.extract_difficulty_level(readme_path) 
                 if difficulty_level:
                     difficulty_folder = os.path.join(self.root_folder, self.src_default_path, difficulty_level.lower())
                     os.makedirs(difficulty_folder, exist_ok=True)
