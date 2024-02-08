@@ -2,8 +2,7 @@ name: Morning Commit
 
 on:
   schedule:
-    - cron: '*/1 * * * *' # Runs every minute
-    
+    - cron: '0 7 * * *' # Runs every day at 7:00 AM UTC    
 jobs:
   empty_commit:
     runs-on: ubuntu-latest
