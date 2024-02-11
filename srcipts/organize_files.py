@@ -80,14 +80,16 @@ class FolderOrganizer:
         """Organize folders based on difficulty levels."""
         for folder_name in os.listdir(self.root_folder):
             readme_path = os.path.join(self.root_folder, folder_name, self.readme_file)
+            
             exists_in_previous, difficulty_level = self.check_in_previous_solutions(folder_name)
-            if exists_in_previous or os.path.exists(readme_path):
+            if os.path.exists(readme_path):
                 # Determine difficulty level based on README or previous solutions
                 difficulty_level =  self.extract_difficulty_level(readme_path)
-            elif difficulty_level is not None:
-                if difficulty_level not in self.difficulty_levels:
-                    self.logger.warning(f"Invalid difficulty level: {difficulty_level}")
-
+            
+            if difficulty_level not in self.difficulty_levels:
+                self.logger.warning(f"Invalid difficulty level: {difficulty_level}")
+            
+            if difficulty_level:
                 difficulty_folder = os.path.join(self.root_folder, self.src_default_path, difficulty_level.lower())
                 os.makedirs(difficulty_folder, exist_ok=True)
 
