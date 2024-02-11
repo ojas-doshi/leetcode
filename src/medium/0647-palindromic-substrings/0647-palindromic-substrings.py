@@ -2,17 +2,19 @@ class Solution:
     def countSubstrings(self, s: str) -> int:
         n = len(s)
         count = 0
-        dp = [[False] * n for _ in range(n)]
+
+        # Function to expand around center and count palindromic substrings
+        def expand_around_center(left, right):
+            nonlocal count
+            while left >= 0 and right < n and s[left] == s[right]:
+                count += 1
+                left -= 1
+                right += 1
 
         for i in range(n):
-            dp[i][i] = True
-            count += 1
-
-        for start in range(n - 1, -1, -1):
-            for end in range(start + 1, n):
-                if s[start] == s[end]:
-                    if end - start == 1 or dp[start + 1][end - 1]:
-                        dp[start][end] = True
-                        count += 1
+            # For odd length palindromes
+            expand_around_center(i, i)
+            # For even length palindromes
+            expand_around_center(i, i + 1)
 
         return count
