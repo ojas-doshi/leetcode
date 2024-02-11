@@ -79,21 +79,22 @@ class FolderOrganizer:
     def organize_folders_by_difficulty(self):
         """Organize folders based on difficulty levels."""
         for folder_name in os.listdir(self.root_folder):
-            readme_path = os.path.join(self.root_folder, folder_name, self.readme_file)
-            exists_in_previous, difficulty_level = self.check_in_previous_solutions(folder_name)
+            if folder_name != self.src_default_path:
+                readme_path = os.path.join(self.root_folder, folder_name, self.readme_file)
+                exists_in_previous, difficulty_level = self.check_in_previous_solutions(folder_name)
 
-            # Determine difficulty level based on README or previous solutions
-            difficulty_level = difficulty_level if exists_in_previous and not os.path.exists(readme_path) else self.extract_difficulty_level(readme_path)
-            if difficulty_level not in self.difficulty_levels:
-                self.logger.warning(f"Invalid difficulty level: {difficulty_level}")
+                # Determine difficulty level based on README or previous solutions
+                difficulty_level = difficulty_level if exists_in_previous and not os.path.exists(readme_path) else self.extract_difficulty_level(readme_path)
+                if difficulty_level not in self.difficulty_levels:
+                    self.logger.warning(f"Invalid difficulty level: {difficulty_level}")
 
-            difficulty_folder = os.path.join(self.root_folder, self.src_default_path, difficulty_level.lower())
-            os.makedirs(difficulty_folder, exist_ok=True)
+                difficulty_folder = os.path.join(self.root_folder, self.src_default_path, difficulty_level.lower())
+                os.makedirs(difficulty_folder, exist_ok=True)
 
-            if os.path.exists(os.path.join(difficulty_folder, folder_name)):
-                self.update_folder_content(os.path.join(self.root_folder, folder_name), os.path.join(difficulty_folder, folder_name))
-            else:
-                self.copy_folders(folder_name, difficulty_folder)
+                if os.path.exists(os.path.join(difficulty_folder, folder_name)):
+                    self.update_folder_content(os.path.join(self.root_folder, folder_name), os.path.join(difficulty_folder, folder_name))
+                else:
+                    self.copy_folders(folder_name, difficulty_folder)
 
 # Example usage
 if __name__ == "__main__":
