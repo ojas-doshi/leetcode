@@ -54,17 +54,6 @@ class FolderOrganizer:
             else:
                 shutil.copy2(source_item_path, destination_item_path)
 
-    def move_folders(self, folder_name, difficulty_folder):
-        """Move folders to the specified difficulty level folder."""
-        folder_path = os.path.join(self.root_folder, folder_name)
-        destination_path = os.path.join(difficulty_folder, folder_name)
-        if not os.path.isdir(folder_path):
-            self.logger.warning(f"Source folder {folder_path} does not exist or is not a directory.")
-        if os.path.exists(destination_path):
-            self.logger.warning(f"Destination folder {destination_path} already exists.")
-        shutil.move(folder_path, destination_path)
-        self.logger.info(f"Moved '{folder_name}' to '{difficulty_folder}' folder.")
-
     def copy_folders(self, folder_name, difficulty_folder):
         """Copy folders to the specified difficulty level folder."""
         folder_path = os.path.join(self.root_folder, folder_name)
@@ -86,7 +75,7 @@ class FolderOrganizer:
                 # Determine difficulty level based on README or previous solutions
                 difficulty_level =  self.extract_difficulty_level(readme_path)
             
-            if difficulty_level not in self.difficulty_levels:
+            if difficulty_level and difficulty_level.lower() not in self.difficulty_levels:
                 self.logger.warning(f"Invalid difficulty level: {difficulty_level}")
             
             if difficulty_level:
@@ -97,6 +86,7 @@ class FolderOrganizer:
                     self.update_folder_content(os.path.join(self.root_folder, folder_name), os.path.join(difficulty_folder, folder_name))
                 else:
                     self.copy_folders(folder_name, difficulty_folder)
+                shutil.rmtree(os.path.join(self.root_folder, folder_name))
 
 # Example usage
 if __name__ == "__main__":
